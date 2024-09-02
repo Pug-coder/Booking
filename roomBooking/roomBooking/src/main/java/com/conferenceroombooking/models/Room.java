@@ -1,4 +1,4 @@
-package main.java.com.conferenceroombooking.models;
+package roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class Room {
 
     }
 
+    // TODO: check if exists
     public void removeBooking(Booking booking) {
         bookings.remove(booking);
     }

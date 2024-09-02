@@ -1,7 +1,8 @@
-package main.java.com.conferenceroombooking.models;
+package roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 public class Booking {
     private LocalDateTime startTime;
     private LocalDateTime endTime;

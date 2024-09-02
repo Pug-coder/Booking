@@ -1,4 +1,4 @@
-package main.java.com.conferenceroombooking.models;
+package roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models;
 
 public class User {
     private String name, surname;

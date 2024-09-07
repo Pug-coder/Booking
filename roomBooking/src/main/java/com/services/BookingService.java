@@ -1,8 +1,8 @@
-package roomBooking.roomBooking.src.main.java.com.conferenceroombooking.services;
+package roomBooking.roomBooking.src.main.java.com.services;
 
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.Booking;
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.Room;
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.User;
+import roomBooking.roomBooking.src.main.java.com.models.Booking;
+import roomBooking.roomBooking.src.main.java.com.models.Room;
+import roomBooking.roomBooking.src.main.java.com.models.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

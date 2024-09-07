@@ -1,11 +1,10 @@
-package roomBooking.roomBooking.src.main.java.com.conferenceroombooking;
+package roomBooking;
 
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.Booking;
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.Room;
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.User;
-import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.services.BookingService;
+import roomBooking.roomBooking.src.main.java.com.models.Booking;
+import roomBooking.roomBooking.src.main.java.com.models.Room;
+import roomBooking.roomBooking.src.main.java.com.models.User;
+import roomBooking.roomBooking.src.main.java.com.services.BookingService;
 
-import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -76,7 +75,8 @@ public class Main {
 
                     System.out.println(bookings);
                 }
-                case 3 -> {}
+                case 3 -> {
+                }
                 case 4 -> {
                     System.out.println("Exiting");
                     scanner.close();

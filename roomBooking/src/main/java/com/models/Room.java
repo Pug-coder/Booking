@@ -1,4 +1,4 @@
-package roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models;
+package roomBooking.roomBooking.src.main.java.com.models;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

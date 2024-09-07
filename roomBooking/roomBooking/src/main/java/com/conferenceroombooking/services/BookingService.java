@@ -2,7 +2,9 @@ package roomBooking.roomBooking.src.main.java.com.conferenceroombooking.services
 
 import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.Booking;
 import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.Room;
+import roomBooking.roomBooking.src.main.java.com.conferenceroombooking.models.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BookingService {
@@ -50,20 +52,32 @@ public class BookingService {
     }
 
     public void removeRoom(Room room) {
-        if (findRoom(room.getRoomNumber()) == null) {
+        if (findRoom(room.getRoomNumber()) != null) {
             rooms.remove(room);
         }
     }
 
-    public void addBooking() {
-
+    public void addBooking(User user, LocalDateTime startTime, LocalDateTime endTime, int roomNumber) {
+        Booking booking = new Booking(startTime, endTime, user);
+        Room room = new Room(roomNumber);
+        room.addBooking(booking);
+        BookingService meetingRoom = new BookingService();
+        meetingRoom.addRoom(room);
     }
 
+    public void removeBooking(int roomNumber, Booking booking) {
+        Room currentRoom = findRoom(roomNumber);
+        if (currentRoom != null) {
+            currentRoom.removeBooking(booking);
+        }
+    }
     /*
         + просмотр комнат
         + просмотр записи в комнате
         + создать комнату
         + удалить комнату
+        + добавить запись
+        удалить запись
 
      */
 

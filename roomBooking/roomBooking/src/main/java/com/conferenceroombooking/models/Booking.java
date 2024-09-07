@@ -45,7 +45,7 @@ public class Booking {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return String.format("Booking{\nUser: %s\nstartTime: %s\n endTime: %s",
+        return String.format("Booking{\nUser: %sstartTime: %s\n endTime: %s",
                 user,
                 startTime.format(formatter),
                 endTime.format(formatter));

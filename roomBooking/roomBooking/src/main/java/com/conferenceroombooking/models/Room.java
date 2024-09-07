@@ -35,7 +35,9 @@ public class Room {
 
     // TODO: check if exists
     public void removeBooking(Booking booking) {
-        bookings.remove(booking);
+        if (bookings.contains(booking)) {
+            bookings.remove(booking);
+        }
     }
 
     public void viewBookings() {

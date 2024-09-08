@@ -1,14 +1,18 @@
 package roomBooking.roomBooking.src.main.java.com.models;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 
 public class Booking {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private User user;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-    public Booking(LocalDateTime startTime, LocalDateTime endTime, User user) {
+    public Booking(String startTime, String endTime, User user) {
         setStartTime(startTime);
         setEndTime(endTime);
         setUser(user);
@@ -18,16 +22,16 @@ public class Booking {
         return this.startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setStartTime(String startTime) {
+        this.startTime = validateTime(startTime, "start time");
     }
 
     public LocalDateTime getEndTime() {
         return this.endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setEndTime(String endTime) {
+        this.endTime = validateTime(endTime, "end time");
     }
 
     public User getUser() {
@@ -38,16 +42,26 @@ public class Booking {
         this.user = user;
     }
 
+    private LocalDateTime validateTime(String time, String fieldName) {
+        try {
+            return LocalDateTime.parse(time, formatter);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Date and time format must be 'dd-MM-yyyy HH:mm'.");
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException(fieldName + " cannot be null or empty.");
+        }
+    }
+
     public boolean conflictsWith(Booking checkedBooking) {
-        return startTime.isBefore(checkedBooking.getEndTime()) && endTime.isAfter(checkedBooking.getStartTime());
+        return getStartTime().isBefore(checkedBooking.getEndTime()) && getEndTime().isAfter(checkedBooking.getStartTime());
     }
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return String.format("Booking{\nUser: %sstartTime: %s\n endTime: %s",
-                user,
-                startTime.format(formatter),
-                endTime.format(formatter));
+                getUser(),
+                getStartTime().format(formatter),
+                getEndTime().format(formatter));
     }
 }

@@ -1,31 +1,61 @@
 package roomBooking.roomBooking.src.main.java.com.models;
 
+import roomBooking.roomBooking.src.main.java.com.exceptions.BadNameException;
+
 public class User {
-    private String name, surname;
+    private String firstName, lastName;
 
-    public User(String name, String surname) {
-        setName(name);
-        setSurname(surname);
+    public User(String firstName, String lastName) {
+        setFirstName(firstName);
+        setLastName(lastName);
     }
 
-    public String getName() {
-        return this.name;
+    public String getFirstName() {
+        return this.firstName;
     }
 
-    public String getSurname() {
-        return this.surname;
+    public String getLastName() {
+        return this.lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        try {
+            this.firstName = validateName(firstName, "First name");
+        } catch (BadNameException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        try {
+            this.lastName = validateName(lastName, "Last name");
+        } catch (BadNameException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    private String validateName(String name, String fieldName) {
+        if (name == null || name.trim().isEmpty()) {
+            String exceptionMessage = String.format("%s cannot be null or empty", fieldName);
+            throw new BadNameException(fieldName, exceptionMessage);
+        }
+        return name;
+    }
+
+    /* используется в main */
+    public User changeFirstName(String firstName) {
+        String newFirstName = validateName(firstName, "First name");
+        return new User(newFirstName, getLastName());
+    }
+
+    public User changeLastName(String lastName) {
+        String newLastName = validateName(lastName, "Last name");
+        return new User(getFirstName(), newLastName);
     }
 
     @Override
     public String toString() {
-        return String.format("Name: %s\n Surname: %s\n", name, surname);
+        return String.format("firstName: %s\n lastName: %s\n", getFirstName(), getLastName());
     }
 }

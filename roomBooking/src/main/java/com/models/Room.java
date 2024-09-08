@@ -1,5 +1,9 @@
 package roomBooking.roomBooking.src.main.java.com.models;
 
+import roomBooking.roomBooking.src.main.java.com.exceptions.BadNameException;
+import roomBooking.roomBooking.src.main.java.com.exceptions.BadRoomNumberException;
+import roomBooking.roomBooking.src.main.java.com.exceptions.BookingTimeException;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -17,7 +21,11 @@ public class Room {
     }
 
     public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+        try {
+            roomNumberValidator(roomNumber);
+        } catch (BadRoomNumberException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public ArrayList<Booking> getBookings() {
@@ -25,36 +33,47 @@ public class Room {
     }
 
     public void addBooking(Booking newBooking) {
-        if (checkRoomIsAvailable(newBooking)) {
-            bookings.add(newBooking);
-        } else {
-            System.out.println("Booking cannot be added. Please choose another time.");
+        try {
+            if (checkRoomIsAvailable(newBooking)) {
+                bookings.add(newBooking);
+            }
+        } catch (BookingTimeException e) {
+            System.out.println(e.getMessage());
         }
-
     }
 
-    // TODO: check if exists
     public void removeBooking(Booking booking) {
-        if (bookings.contains(booking)) {
-            bookings.remove(booking);
-        }
+        bookings.remove(booking);
     }
 
     public void viewBookings() {
-        for (Booking booking : bookings) {
-            System.out.println(booking.getStartTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
-                    + "-"
-                    + booking.getEndTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+        if (getBookings().isEmpty()) {
+            System.out.println("No bookings for this room");
+        } else {
+            for (Booking booking : getBookings()) {
+                System.out.println(booking.getStartTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
+                        + "-"
+                        + booking.getEndTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+            }
         }
     }
 
+    private int roomNumberValidator(int roomNumber) {
+        if (roomNumber <= 0) {
+            String exceptionMessage = String.format("Room number cannot be less than zero%nyour choice %s",
+                    roomNumber);
+            throw new BadRoomNumberException(exceptionMessage, roomNumber);
+        } else {
+            return roomNumber;
+        }
+    }
     public boolean checkRoomIsAvailable(Booking checkingBooking) {
-        for (Booking booking : bookings) {
+        for (Booking booking : getBookings()) {
             if (checkingBooking.conflictsWith(booking)) {
-                System.out.printf("Conflict with another booking%n %s - %s",
+                String exceptionMessage = String.format("Conflict with another booking%n %s - %s",
                         booking.getStartTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")),
                         booking.getEndTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
-                return false;
+                throw new BookingTimeException(exceptionMessage, booking);
             }
         }
         return true;

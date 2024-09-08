@@ -1,5 +1,6 @@
 package roomBooking.roomBooking.src.main.java.com.services;
 
+import roomBooking.roomBooking.src.main.java.com.exceptions.RoomNotFoundException;
 import roomBooking.roomBooking.src.main.java.com.models.Booking;
 import roomBooking.roomBooking.src.main.java.com.models.Room;
 import roomBooking.roomBooking.src.main.java.com.models.User;
@@ -30,18 +31,13 @@ public class BookingService {
             }
         }
 
-        System.out.println("Room not found");
         return null;
     }
 
     public void viewRoomBookings(int roomNumber) {
         Room foundedRoomNumber = findRoom(roomNumber);
         if (foundedRoomNumber != null) {
-            for (Booking booking : foundedRoomNumber.getBookings()) {
-                System.out.printf("%s - %s%n",
-                        booking.getStartTime(),
-                        booking.getEndTime());
-            }
+            foundedRoomNumber.viewBookings();
         }
     }
 
@@ -57,18 +53,22 @@ public class BookingService {
         }
     }
 
-    public void addBooking(User user, LocalDateTime startTime, LocalDateTime endTime, int roomNumber) {
+    public void addBooking(User user, String startTime, String endTime, int roomNumber) {
         Booking booking = new Booking(startTime, endTime, user);
-        Room room = new Room(roomNumber);
-        room.addBooking(booking);
-        BookingService meetingRoom = new BookingService();
-        meetingRoom.addRoom(room);
+        Room room = findRoom(roomNumber);
+        if (room != null) {
+            room.addBooking(booking);
+        } else {
+            throw new RoomNotFoundException("No room founded", roomNumber);
+        }
     }
 
     public void removeBooking(int roomNumber, Booking booking) {
         Room currentRoom = findRoom(roomNumber);
         if (currentRoom != null) {
             currentRoom.removeBooking(booking);
+        } else {
+            throw new RoomNotFoundException("No room founded", roomNumber);
         }
     }
     /*
@@ -77,7 +77,7 @@ public class BookingService {
         + создать комнату
         + удалить комнату
         + добавить запись
-        удалить запись
+        + удалить запись
 
      */
 

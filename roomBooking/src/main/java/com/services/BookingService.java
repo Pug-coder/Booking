@@ -53,22 +53,22 @@ public class BookingService {
         }
     }
 
-    public void addBooking(User user, String startTime, String endTime, int roomNumber) {
-        Booking booking = new Booking(startTime, endTime, user);
+    public void addBooking(Booking booking, int roomNumber) {
+        //Booking booking = new Booking(startTime, endTime, user);
         Room room = findRoom(roomNumber);
         if (room != null) {
             room.addBooking(booking);
         } else {
-            throw new RoomNotFoundException("No room founded", roomNumber);
+            throw new RoomNotFoundException("Can't found room " + roomNumber, roomNumber);
         }
     }
 
-    public void removeBooking(int roomNumber, Booking booking) {
+    public void removeBooking(Booking booking, int roomNumber) {
         Room currentRoom = findRoom(roomNumber);
         if (currentRoom != null) {
             currentRoom.removeBooking(booking);
         } else {
-            throw new RoomNotFoundException("No room founded", roomNumber);
+            throw new RoomNotFoundException("Can't found room " + roomNumber, roomNumber);
         }
     }
     /*

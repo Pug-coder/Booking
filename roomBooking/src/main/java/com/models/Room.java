@@ -1,8 +1,7 @@
 package roomBooking.roomBooking.src.main.java.com.models;
 
-import roomBooking.roomBooking.src.main.java.com.exceptions.BadNameException;
 import roomBooking.roomBooking.src.main.java.com.exceptions.BadRoomNumberException;
-import roomBooking.roomBooking.src.main.java.com.exceptions.BookingTimeException;
+import roomBooking.roomBooking.src.main.java.com.exceptions.BookingConflictException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,11 +20,7 @@ public class Room {
     }
 
     public void setRoomNumber(int roomNumber) {
-        try {
-            roomNumberValidator(roomNumber);
-        } catch (BadRoomNumberException e) {
-            System.out.println(e.getMessage());
-        }
+        this.roomNumber = roomNumberValidator(roomNumber);
     }
 
     public ArrayList<Booking> getBookings() {
@@ -33,12 +28,8 @@ public class Room {
     }
 
     public void addBooking(Booking newBooking) {
-        try {
-            if (checkRoomIsAvailable(newBooking)) {
-                bookings.add(newBooking);
-            }
-        } catch (BookingTimeException e) {
-            System.out.println(e.getMessage());
+        if (checkRoomIsAvailable(newBooking)) {
+            bookings.add(newBooking);
         }
     }
 
@@ -51,9 +42,7 @@ public class Room {
             System.out.println("No bookings for this room");
         } else {
             for (Booking booking : getBookings()) {
-                System.out.println(booking.getStartTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
-                        + "-"
-                        + booking.getEndTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+                System.out.println(booking);
             }
         }
     }
@@ -73,7 +62,7 @@ public class Room {
                 String exceptionMessage = String.format("Conflict with another booking%n %s - %s",
                         booking.getStartTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")),
                         booking.getEndTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
-                throw new BookingTimeException(exceptionMessage, booking);
+                throw new BookingConflictException(exceptionMessage, booking);
             }
         }
         return true;

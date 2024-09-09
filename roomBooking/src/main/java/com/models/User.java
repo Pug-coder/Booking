@@ -19,19 +19,11 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        try {
-            this.firstName = validateName(firstName, "First name");
-        } catch (BadNameException e) {
-            System.out.println(e.getMessage());
-        }
+        this.firstName = validateName(firstName, "First name");
     }
 
     public void setLastName(String lastName) {
-        try {
-            this.lastName = validateName(lastName, "Last name");
-        } catch (BadNameException e) {
-            System.out.println(e.getMessage());
-        }
+        this.lastName = validateName(lastName, "Last name");
     }
 
 
@@ -43,7 +35,7 @@ public class User {
         return name;
     }
 
-    /* используется в main */
+    /* в Booking можно сделать, а тут try catch*/
     public User changeFirstName(String firstName) {
         String newFirstName = validateName(firstName, "First name");
         return new User(newFirstName, getLastName());

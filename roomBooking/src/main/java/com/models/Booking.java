@@ -1,5 +1,8 @@
 package roomBooking.roomBooking.src.main.java.com.models;
 
+import roomBooking.roomBooking.src.main.java.com.exceptions.BookingNullException;
+import roomBooking.roomBooking.src.main.java.com.exceptions.BookingTimeException;
+
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,9 +49,9 @@ public class Booking {
         try {
             return LocalDateTime.parse(time, formatter);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Date and time format must be 'dd-MM-yyyy HH:mm'.");
+            throw new BookingTimeException(fieldName + "date and time format must be 'dd-MM-yyyy HH:mm'.", fieldName);
         } catch (NullPointerException e) {
-            throw new IllegalArgumentException(fieldName + " cannot be null or empty.");
+            throw new BookingNullException(fieldName + " cannot be null or empty.", fieldName);
         }
     }
 
@@ -58,7 +61,6 @@ public class Booking {
 
     @Override
     public String toString() {
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return String.format("Booking{\nUser: %sstartTime: %s\n endTime: %s",
                 getUser(),
                 getStartTime().format(formatter),

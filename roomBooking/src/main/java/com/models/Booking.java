@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 public class Booking {
     private LocalDateTime startTime;
@@ -65,5 +66,20 @@ public class Booking {
                 getUser(),
                 getStartTime().format(formatter),
                 getEndTime().format(formatter));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Booking booking = (Booking) obj;
+        return startTime.equals(booking.startTime) &&
+                endTime.equals(booking.endTime) &&
+                user.equals(booking.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startTime, endTime, user);
     }
 }

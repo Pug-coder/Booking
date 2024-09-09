@@ -2,6 +2,8 @@ package roomBooking.roomBooking.src.main.java.com.models;
 
 import roomBooking.roomBooking.src.main.java.com.exceptions.BadNameException;
 
+import java.util.Objects;
+
 public class User {
     private String firstName, lastName;
 
@@ -50,4 +52,19 @@ public class User {
     public String toString() {
         return String.format("firstName: %s\n lastName: %s\n", getFirstName(), getLastName());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User user = (User) obj;
+        return firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
+    }
+
 }
